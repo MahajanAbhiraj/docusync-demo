@@ -75,6 +75,156 @@ main {
     padding: 2rem;
 }
 
+/* Layout adjustments */
+.main-sections-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 900px) {
+    .main-sections-grid {
+        grid-template-columns: 350px 1fr;
+    }
+}
+
+.forms-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.list-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Top Section (Title + Filter) */
+header .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.account-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.account-filter label {
+    color: var(--text-muted); /* Changed from --text-secondary as it's not defined */
+    font-weight: 500;
+}
+
+.account-filter select {
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px; /* Changed from var(--border-radius) as it's not defined */
+    color: white; /* Changed from var(--text-primary) as it's not defined */
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.account-filter select:focus {
+    outline: none;
+    border-color: var(--primary); /* Changed from var(--primary-color) as it's not defined */
+}
+
+.account-filter select option {
+    background-color: var(--card-bg); /* Changed from var(--bg-card) as it's not defined */
+    color: var(--text-main); /* Changed from var(--text-primary) as it's not defined */
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(90deg, #fff, var(--text-muted)); /* Changed from var(--text-secondary) as it's not defined */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Form Styles */
+section {
+    background: var(--card-bg); /* Changed from var(--bg-card) as it's not defined */
+    padding: 1.5rem;
+    border-radius: 12px; /* Changed from var(--border-radius) as it's not defined */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Adjusted shadow for consistency */
+    border: 1px solid var(--border); /* Changed from var(--border-color) as it's not defined */
+}
+
+section h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-main); /* Changed from var(--text-primary) as it's not defined */
+}
+
+.inline-form {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.inline-form .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted); /* Changed from var(--text-secondary) as it's not defined */
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+input, select {
+    padding: 0.75rem;
+    background: #F8FAFC; /* Changed from rgba(0, 0, 0, 0.2) for consistency */
+    border: 1px solid var(--border); /* Changed from var(--border-color) as it's not defined */
+    border-radius: 12px; /* Changed from var(--border-radius) as it's not defined */
+    color: var(--text-main); /* Changed from var(--text-primary) as it's not defined */
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary); /* Changed from var(--primary-color) as it's not defined */
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); /* Adjusted shadow color for consistency */
+    background: white; /* Added for consistency with existing focus style */
+}
+
+select option {
+    background-color: var(--card-bg); /* Changed from var(--bg-card) as it's not defined */
+    color: var(--text-main); /* Changed from var(--text-primary) as it's not defined */
+}
+
 h3 {
     font-size: 1.125rem;
     font-weight: 600;
@@ -86,40 +236,29 @@ h3 {
     margin-bottom: 2.5rem;
 }
 
-.form-group {
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-}
-
-input, select {
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
+.btn-secondary {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--card-bg);
+    color: var(--primary);
+    border: 1px solid var(--primary);
     border-radius: 12px;
-    font-size: 1rem;
-    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.2s ease;
-    background: #F8FAFC;
 }
 
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: white;
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+.btn-secondary:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.expense-account-badge {
+    background: #E0E7FF;
+    color: var(--primary);
+    padding: 0.1rem 0.5rem;
+    border-radius: 1rem;
+    font-weight: 600;
 }
 
 .btn-primary {

@@ -10,7 +10,16 @@
 <body>
     <div class="app-container">
         <header>
-            <h1>Expense Tracker</h1>
+            <div class="header-top">
+                <h1>Expense Tracker</h1>
+                <div class="account-filter">
+                    <label for="global-account-filter">View Account:</label>
+                    <select id="global-account-filter">
+                        <option value="">All Accounts</option>
+                        <!-- Accounts populated here -->
+                    </select>
+                </div>
+            </div>
             <div class="balance-card">
                 <h2>Total Spending</h2>
                 <h3 id="total-amount">$0.00</h3>
@@ -18,9 +27,11 @@
         </header>
 
         <main>
-            <section class="add-expense-section">
-                <h3>Add New Expense</h3>
-                <form id="expense-form">
+            <div class="main-sections-grid">
+                <div class="forms-column">
+                    <section class="add-expense-section">
+                        <h3>Add New Expense</h3>
+                        <form id="expense-form">
                     <div class="form-group">
                         <label for="title">Description</label>
                         <input type="text" id="title" placeholder="e.g. Groceries" required>
@@ -31,31 +42,53 @@
                             <label for="amount">Amount ($)</label>
                             <input type="number" id="amount" step="0.01" placeholder="e.g. 50.00" required>
                         </div>
-                        <div class="form-group">
-                            <label for="category">Category</label>
-                            <select id="category" required>
-                                <option value="Food">Food & Dining</option>
-                                <option value="Utilities">Utilities</option>
-                                <option value="Entertainment">Entertainment</option>
-                                <option value="Housing">Housing</option>
-                                <option value="Transportation">Transportation</option>
-                                <option value="Other">Other</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category" required>
+                                    <option value="Food">Food & Dining</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Housing">Housing</option>
+                                    <option value="Transportation">Transportation</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-account">Account</label>
+                                <select id="expense-account" required>
+                                    <option value="" disabled selected>Select Account</option>
+                                    <!-- Accounts populated here -->
+                                </select>
+                            </div>
                         </div>
-                    </div>
                     
                     <button type="submit" class="btn-primary">Add Expense</button>
-                </form>
-            </section>
+                    </form>
+                </section>
 
-            <section class="expense-list-section">
-                <h3>Recent Expenses</h3>
-                <div class="expense-list" id="expense-list">
-                    <!-- Expense items will populate here -->
-                    <div class="loading">Loading expenses...</div>
-                </div>
-            </section>
-        </main>
+                <section class="add-account-section">
+                    <h3>Manage Accounts</h3>
+                    <form id="account-form" class="inline-form">
+                        <div class="form-group">
+                            <input type="text" id="account-name" placeholder="New Account Name (e.g. Travel)" required>
+                        </div>
+                        <button type="submit" class="btn-secondary">Add</button>
+                    </form>
+                </section>
+            </div>
+
+            <div class="list-column">
+                <section class="expense-list-section">
+                    <h3>Recent Expenses</h3>
+                    <div class="expense-list" id="expense-list">
+                        <!-- Expense items will populate here -->
+                        <div class="loading">Loading expenses...</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
     </div>
 
     <script src="/static/app.js"></script>
