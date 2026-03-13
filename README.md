@@ -1,26 +1,30 @@
-# DocuSync Demo API
+# Personal Expense Tracker
 
-This repository is created for testing purposes only. It is intended to be used with the **DocuSync AI** project, which automatically synchronizes documentation in Confluence whenever a pull request is merged.
+A modern, fast, and responsive full-stack application to track your personal finances and expenses built with **FastAPI** and Vanilla HTML/CSS/JS.
 
-## Overview
+## Features
+- **Dashboard:** Instantly view your total spending at a glance.
+- **Manage Expenses:** Seamlessly add new expenses with categories (Food, Utilities, Entertainment, Housing, Transportation, Other).
+- **History:** View a reverse-chronological list of all your recorded expenses.
+- **Delete:** Remove erroneous or outdated expenses with a single click.
+- **Responsive UI:** A clean, glassmorphism-inspired interface that works perfectly across all devices.
 
-This is a simulated FastAPI project with some simple mock endpoints (`users`, `products`), illustrating how DocuSync can parse docstrings and typing hints to update Confluence pages.
+## Setup Instructions
 
-## Getting Started
+### Prerequisites
+- Python 3.8+
 
-1. **Install dependencies:**
+### Installation
+1. Clone the repository and navigate to the project root.
+2. Install the required backend dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-2. **Run the server:**
-   ```bash
-   python main.py
-   ```
-   Or use `uvicorn`:
+### Running the Application
+1. Start the FastAPI server using `uvicorn`:
    ```bash
    uvicorn main:app --reload
    ```
-
-3. **Check the documentation:**
-   Navigate to [http://localhost:8000/docs](http://localhost:8000/docs) to see the automatically generated OpenAPI interface.
+2. Open your web browser and navigate to [http://localhost:8000](http://localhost:8000) to access the application UI.
+3. Access the interactive API documentation at [http://localhost:8000/docs](http://localhost:8000/docs).

@@ -1,24 +1,29 @@
 from fastapi import FastAPI
-from routers import users, products
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from routers import expenses
+import os
 
 app = FastAPI(
-    title="Demo E-commerce API",
-    description="This is a simple demo API for testing DocuSync AI. It contains basic endpoints for user and product management.",
+    title="Personal Expense Tracker API",
+    description="Backend API for managing personal expenses.",
     version="1.0.0"
 )
 
-app.include_router(users.router)
-app.include_router(products.router)
+app.include_router(expenses.router)
+
+# Ensure static directory exists
+os.makedirs("static", exist_ok=True)
+
+# Mount the static directory to serve CSS and JS
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def read_root():
     """
-    Root endpoint that returns a simple welcome message.
+    Serve the main UI of the application.
     """
-    return {
-        "message": "Welcome to the Demo E-commerce API!",
-        "docs": "Visit /docs for the Swagger UI documentation."
-    }
+    return FileResponse("static/index.html")
 
 if __name__ == "__main__":
     import uvicorn
