@@ -1,6 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 
 router = APIRouter(prefix="/expenses", tags=["Expenses"])
@@ -11,27 +11,31 @@ class Expense(BaseModel):
     amount: float
     category: str
     date: str
+    account_id: int
 
 class ExpenseCreate(BaseModel):
     title: str
     amount: float
     category: str
+    account_id: int
 
 # In-memory storage for simplicity
 expenses_db: List[Expense] = [
-    Expense(id=1, title="Groceries", amount=150.50, category="Food", date=datetime.now().strftime("%Y-%m-%d")),
-    Expense(id=2, title="Internet Bill", amount=60.00, category="Utilities", date=datetime.now().strftime("%Y-%m-%d")),
+    Expense(id=1, title="Groceries", amount=150.50, category="Food", date=datetime.now().strftime("%Y-%m-%d"), account_id=1),
+    Expense(id=2, title="Internet Bill", amount=60.00, category="Utilities", date=datetime.now().strftime("%Y-%m-%d"), account_id=1),
 ]
 current_id = 2
 
 @router.get("/", response_model=List[Expense])
-def get_expenses():
+def get_expenses(account_id: Optional[int] = Query(None, description="Filter expenses by account ID")):
     """
-    Retrieve a list of all expenses.
+    Retrieve a list of all expenses. Optionally filter by account ID.
     
     Returns:
         List[Expense]: A list of expense objects.
     """
+    if account_id is not None:
+        return [exp for exp in expenses_db if exp.account_id == account_id]
     return expenses_db
 
 @router.post("/", response_model=Expense)
@@ -52,7 +56,8 @@ def add_expense(expense: ExpenseCreate):
         title=expense.title,
         amount=expense.amount,
         category=expense.category,
-        date=datetime.now().strftime("%Y-%m-%d")
+        date=datetime.now().strftime("%Y-%m-%d"),
+        account_id=expense.account_id
     )
     expenses_db.append(new_expense)
     return new_expense

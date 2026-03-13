@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from routers import expenses
+from routers import expenses, accounts
 import os
 
 app = FastAPI(
@@ -11,6 +11,7 @@ app = FastAPI(
 )
 
 app.include_router(expenses.router)
+app.include_router(accounts.router)
 
 # Ensure static directory exists
 os.makedirs("static", exist_ok=True)
@@ -27,4 +28,4 @@ def read_root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8001, reload=True)
