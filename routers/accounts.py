@@ -20,30 +20,24 @@ current_account_id = 2
 
 @router.get("/", response_model=List[Account])
 def get_accounts():
-    """
-    Retrieve a list of all accounts.
-    
-    Returns:
-        List[Account]: A list of account objects.
-    """
+    """Retrieve a list of all accounts."""
     return accounts_db
 
 @router.post("/", response_model=Account)
 def add_account(account: AccountCreate):
-    """
-    Add a new account.
-    
-    Args:
-        account (AccountCreate): The details of the account to add.
-        
-    Returns:
-        Account: The newly created account object.
-    """
+    """Add a new account."""
     global current_account_id
     current_account_id += 1
-    new_account = Account(
-        id=current_account_id,
-        name=account.name
-    )
+    new_account = Account(id=current_account_id, name=account.name)
     accounts_db.append(new_account)
     return new_account
+
+@router.delete("/{account_id}")
+def delete_account(account_id: int):
+    """Delete an account by ID."""
+    global accounts_db
+    for i, acc in enumerate(accounts_db):
+        if acc.id == account_id:
+            del accounts_db[i]
+            return {"message": "Account deleted successfully"}
+    raise HTTPException(status_code=404, detail="Account not found")
