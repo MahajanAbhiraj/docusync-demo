@@ -3,93 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Expense Tracker</title>
+    <title>Expense Tracker Pro</title>
+    <meta name="description" content="A powerful personal expense tracking app with analytics, CSV import/export, and multi-account support.">
     <link rel="stylesheet" href="/static/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app-container">
-        <header>
-            <div class="header-top">
-                <h1>Expense Tracker</h1>
-                <div class="account-filter">
-                    <label for="global-account-filter">View Account:</label>
-                    <select id="global-account-filter">
-                        <option value="">All Accounts</option>
-                        <!-- Accounts populated here -->
-                    </select>
-                </div>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">💰</div>
+            <span class="logo-text">ExpenseTracker</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-link active" data-tab="dashboard" id="nav-dashboard">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                <span>Dashboard</span>
+            </a></li>
+            <li><a href="#" class="nav-link" data-tab="expenses" id="nav-expenses">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                <span>Expenses</span>
+            </a></li>
+            <li><a href="#" class="nav-link" data-tab="accounts" id="nav-accounts">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Accounts</span>
+            </a></li>
+        </ul>
+        <div class="sidebar-bottom">
+            <div class="account-filter-group">
+                <label class="filter-label">Active Account</label>
+                <select id="global-account-filter" class="sidebar-select">
+                    <option value="">All Accounts</option>
+                </select>
             </div>
-            <div class="balance-card">
-                <h2>Total Spending</h2>
-                <h3 id="total-amount">$0.00</h3>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title" id="page-title">Dashboard</h1>
+            </div>
+            <div class="topbar-right">
+                <button class="btn-icon" id="btn-import-csv" title="Import CSV">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Import CSV
+                </button>
+                <button class="btn-icon" id="btn-export-csv" title="Export CSV">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Export CSV
+                </button>
+                <button class="btn-primary" id="btn-add-expense">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Add Expense
+                </button>
             </div>
         </header>
 
-        <main>
-            <div class="main-sections-grid">
-                <div class="forms-column">
-                    <section class="add-expense-section">
-                        <h3>Add New Expense</h3>
-                        <form id="expense-form">
-                    <div class="form-group">
-                        <label for="title">Description</label>
-                        <input type="text" id="title" placeholder="e.g. Groceries" required>
+        <!-- Tab: Dashboard -->
+        <section class="tab-content active" id="tab-dashboard">
+            <!-- Stat Cards -->
+            <div class="stats-grid">
+                <div class="stat-card stat-card--blue">
+                    <div class="stat-icon">💸</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Spending</div>
+                        <div class="stat-value" id="stat-total">$0.00</div>
                     </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="amount">Amount ($)</label>
-                            <input type="number" id="amount" step="0.01" placeholder="e.g. 50.00" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="category">Category</label>
-                                <select id="category" required>
-                                    <option value="Food">Food & Dining</option>
-                                    <option value="Utilities">Utilities</option>
-                                    <option value="Entertainment">Entertainment</option>
-                                    <option value="Housing">Housing</option>
-                                    <option value="Transportation">Transportation</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="expense-account">Account</label>
-                                <select id="expense-account" required>
-                                    <option value="" disabled selected>Select Account</option>
-                                    <!-- Accounts populated here -->
-                                </select>
-                            </div>
-                        </div>
-                    
-                    <button type="submit" class="btn-primary">Add Expense</button>
-                    </form>
-                </section>
-
-                <section class="add-account-section">
-                    <h3>Manage Accounts</h3>
-                    <form id="account-form" class="inline-form">
-                        <div class="form-group">
-                            <input type="text" id="account-name" placeholder="New Account Name (e.g. Travel)" required>
-                        </div>
-                        <button type="submit" class="btn-secondary">Add</button>
-                    </form>
-                </section>
+                </div>
+                <div class="stat-card stat-card--green">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Avg per Expense</div>
+                        <div class="stat-value" id="stat-avg">$0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--purple">
+                    <div class="stat-icon">🏷️</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Top Category</div>
+                        <div class="stat-value" id="stat-top-cat">—</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--orange">
+                    <div class="stat-icon">🧾</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Transactions</div>
+                        <div class="stat-value" id="stat-count">0</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="list-column">
-                <section class="expense-list-section">
-                    <h3>Recent Expenses</h3>
-                    <div class="expense-list" id="expense-list">
-                        <!-- Expense items will populate here -->
-                        <div class="loading">Loading expenses...</div>
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Spending by Category</h3>
+                    <div class="chart-container">
+                        <canvas id="category-chart"></canvas>
                     </div>
-                </section>
+                </div>
+                <div class="glass-card chart-card">
+                    <h3 class="card-title">Monthly Trend</h3>
+                    <div class="chart-container">
+                        <canvas id="monthly-chart"></canvas>
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
+
+            <!-- Recent Expenses on Dashboard -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Expenses</h3>
+                    <a href="#" class="link-small" data-tab="expenses" id="view-all-link">View All →</a>
+                </div>
+                <div id="recent-expense-list" class="recent-list">
+                    <div class="loading-state">Loading...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Expenses -->
+        <section class="tab-content" id="tab-expenses">
+            <div class="glass-card">
+                <!-- Filter / Search Toolbar -->
+                <div class="expense-toolbar">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="search-input" placeholder="Search expenses…">
+                    </div>
+                    <select id="filter-category" class="toolbar-select">
+                        <option value="">All Categories</option>
+                        <option value="Food">Food & Dining</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Housing">Housing</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Health">Health</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select id="sort-by" class="toolbar-select">
+                        <option value="date-desc">Newest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="amount-desc">Highest Amount</option>
+                        <option value="amount-asc">Lowest Amount</option>
+                    </select>
+                </div>
+
+                <!-- Expenses Table -->
+                <div class="table-wrapper">
+                    <table class="expense-table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Account</th>
+                                <th>Date</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-table-body">
+                            <tr><td colspan="6" class="empty-cell">Loading expenses…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span id="expense-count-label">0 expenses</span>
+                    <span id="expense-total-label">Total: $0.00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Accounts -->
+        <section class="tab-content" id="tab-accounts">
+            <div class="accounts-layout">
+                <div class="glass-card">
+                    <h3 class="card-title">Add New Account</h3>
+                    <form id="account-form" class="account-form">
+                        <div class="form-group">
+                            <label for="account-name">Account Name</label>
+                            <input type="text" id="account-name" placeholder="e.g. Savings, Credit Card" required>
+                        </div>
+                        <button type="submit" class="btn-primary full-width">Create Account</button>
+                    </form>
+                </div>
+                <div class="glass-card">
+                    <h3 class="card-title">Your Accounts</h3>
+                    <div id="accounts-list" class="accounts-list">
+                        <div class="loading-state">Loading accounts…</div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <!-- Add Expense Modal -->
+    <div class="modal-overlay" id="expense-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Expense</h3>
+                <button class="modal-close" id="modal-close">✕</button>
+            </div>
+            <form id="expense-form">
+                <input type="hidden" id="edit-expense-id">
+                <div class="form-group">
+                    <label for="title">Description</label>
+                    <input type="text" id="title" placeholder="e.g. Groceries" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="amount">Amount ($)</label>
+                        <input type="number" id="amount" step="0.01" min="0" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" required>
+                            <option value="Food">Food & Dining</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Housing">Housing</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Health">Health</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="expense-account">Account</label>
+                    <select id="expense-account" required>
+                        <option value="" disabled selected>Select Account</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="modal-cancel">Cancel</button>
+                    <button type="submit" class="btn-primary" id="modal-submit">Add Expense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hidden CSV import input -->
+    <input type="file" id="csv-file-input" accept=".csv" style="display:none">
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
     <script src="/static/app.js"></script>
 </body>
