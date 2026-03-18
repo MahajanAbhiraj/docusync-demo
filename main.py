@@ -19,6 +19,13 @@ os.makedirs("static", exist_ok=True)
 # Mount the static directory to serve CSS and JS
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+@app.get("/health")
+def health_check():
+    """
+    Health check endpoint to verify the API is running.
+    """
+    return {"status": "ok", "version": "1.0.0"}
+
 @app.get("/")
 def read_root():
     """
