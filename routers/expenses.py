@@ -100,7 +100,7 @@ def update_expense(expense_id: int, update: ExpenseUpdate):
     raise HTTPException(status_code=404, detail="Expense not found")
 
 
-@router.delete("/{expense_id}")
+@router.delete("/demo/{expense_id}")
 def delete_expense(expense_id: int):
     """Delete an expense by ID."""
     global expenses_db
@@ -111,7 +111,7 @@ def delete_expense(expense_id: int):
     raise HTTPException(status_code=404, detail="Expense not found")
 
 
-@router.get("/export/csv")
+@router.get("/demo/export/csv")
 def export_expenses_csv(account_id: Optional[int] = Query(None)):
     """Export all expenses (or filtered by account) as a CSV file."""
     data = expenses_db
