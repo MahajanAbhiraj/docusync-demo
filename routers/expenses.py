@@ -83,7 +83,7 @@ def add_expense(expense: ExpenseCreate):
     return new_expense
 
 
-@router.put("/{expense_id}", response_model=Expense)
+@router.put("/demo/{expense_id}", response_model=Expense)
 def update_expense(expense_id: int, update: ExpenseUpdate):
     """Update an existing expense."""
     for expense in expenses_db:
