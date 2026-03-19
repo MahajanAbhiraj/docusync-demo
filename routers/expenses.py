@@ -48,6 +48,8 @@ def get_expenses(
     account_id: Optional[int] = Query(None, description="Filter expenses by account ID"),
     category: Optional[str] = Query(None, description="Filter by category"),
     search: Optional[str] = Query(None, description="Search in title"),
+    min_amount: Optional[float] = Query(None, description="Filter by minimum amount"),
+    max_amount: Optional[float] = Query(None, description="Filter by maximum amount"),
 ):
     """Retrieve all expenses with optional filters."""
     result = expenses_db
@@ -57,6 +59,10 @@ def get_expenses(
         result = [e for e in result if e.category.lower() == category.lower()]
     if search:
         result = [e for e in result if search.lower() in e.title.lower()]
+    if min_amount is not None:
+        result = [e for e in result if e.amount >= min_amount]
+    if max_amount is not None:
+        result = [e for e in result if e.amount <= max_amount]
     return result
 
 
@@ -77,7 +83,7 @@ def add_expense(expense: ExpenseCreate):
     return new_expense
 
 
-@router.put("/{expense_id}", response_model=Expense)
+@router.put("/demo/{expense_id}", response_model=Expense)
 def update_expense(expense_id: int, update: ExpenseUpdate):
     """Update an existing expense."""
     for expense in expenses_db:
