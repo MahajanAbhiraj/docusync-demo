@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from routers import expenses, accounts
+from routers import expenses, accounts, budgets
 import os
 
 app = FastAPI(
@@ -12,6 +12,7 @@ app = FastAPI(
 
 app.include_router(expenses.router)
 app.include_router(accounts.router)
+app.include_router(budgets.router)
 
 # Ensure static directory exists
 os.makedirs("static", exist_ok=True)
